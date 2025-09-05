@@ -12,6 +12,8 @@ from flask_limiter.errors import RateLimitExceeded
 # Load environment variables
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")  # needed for session
