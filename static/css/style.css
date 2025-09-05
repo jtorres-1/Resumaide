@@ -1,0 +1,133 @@
+/* === Global === */
+body {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  color: #000;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Dark mode override */
+.dark-mode {
+  background-color: #121212 !important;
+  color: #f8f9fa !important;
+}
+
+/* Ensure all elements inherit dark mode text color */
+.dark-mode body,
+.dark-mode * {
+  color: inherit;
+}
+
+/* Card */
+.card {
+  background: #ffffff;
+  color: #000000;
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+}
+
+.dark-mode .card {
+  background: #1e1e1e;
+  color: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Inputs */
+.form-control {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.dark-mode .form-control {
+  background: #2a2a2a;
+  color: #f8f9fa;
+  border: 1px solid #444;
+}
+
+.dark-mode .form-control::placeholder {
+  color: #aaa;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: transform 0.1s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.dark-mode .btn {
+  border: none;
+}
+
+/* Subtitle */
+.subtitle {
+  color: #6c757d;
+}
+
+.dark-mode .subtitle {
+  color: #d0d0d0 !important;
+}
+
+/* Logo badge + brand circle */
+.logo-badge,
+.brand-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logo-badge {
+  background: #198754; /* Bootstrap success green */
+  color: white;
+}
+
+.brand-circle {
+  background: #198754; /* For result page logo */
+  color: white;
+}
+
+/* Resume content box */
+pre {
+  background: #ffffff;
+  color: #000000;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: "Inter", monospace;
+  font-size: 0.95rem;
+}
+
+.dark-mode pre {
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* Error page */
+.error-card {
+  max-width: 500px;
+  margin: auto;
+  border-radius: 1rem;
+}
+
+.error-card h1 {
+  font-size: 3rem;
+  color: #dc3545;
+}
+
+.dark-mode .error-card h1 {
+  color: #ff6b6b;
+}

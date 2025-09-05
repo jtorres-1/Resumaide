@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Limit Reached – ResumAide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .error-card {
+      border: none;
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 100%;
+    }
+    .error-icon {
+      font-size: 4rem;
+      color: #dc3545;
+    }
+    .dark-mode {
+      background-color: #121212 !important;
+      color: #f1f1f1 !important;
+    }
+    .dark-mode .card {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+    }
+    .btn {
+      border-radius: 0.5rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
+  <div class="card error-card text-center shadow-lg p-5">
+    <h1 class="mb-3">
+      <i class="bi bi-exclamation-triangle-fill error-icon"></i>
+    </h1>
+    <h3 class="fw-bold mb-3">Daily Limit Reached</h3>
+    <p class="mb-4">
+      You’ve hit the maximum of <strong>3 optimizations per day</strong>.<br>
+      This keeps ResumAide affordable and running smoothly for all users.
+    </p>
+    <form action="{{ url_for('index') }}" method="GET">
+      <button type="submit" class="btn btn-primary btn-lg">Return Home</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle("bg-light");
+    }
+  </script>
+</body>
+</html>
