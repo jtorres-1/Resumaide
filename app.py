@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, session, redirect, url_for
 import openai
 from PyPDF2 import PdfReader
 from io import BytesIO
@@ -14,6 +14,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")  # needed for session
 
 # --- Add API rate limiting ---
 limiter = Limiter(
@@ -22,15 +23,9 @@ limiter = Limiter(
     default_limits=[]
 )
 
-# --- Global storage for optimized resume ---
-optimized_resume_global = ""
-
-
 @app.route("/", methods=["GET", "POST"])
 @limiter.limit("3 per day", methods=["POST"])
 def index():
-    global optimized_resume_global
-
     if request.method == "POST":
         resume_text = ""
 
@@ -70,7 +65,10 @@ def index():
                 max_tokens=1200,
             )
             optimized_resume = response.choices[0].message.content.strip()
-            optimized_resume_global = optimized_resume
+
+            # Store in session (per-user, isolated)
+            session["optimized_resume"] = optimized_resume
+
             return render_template("result.html", optimized_resume=optimized_resume)
 
         except Exception as e:
@@ -81,18 +79,24 @@ def index():
 
 @app.route("/download/txt", methods=["POST"])
 def download_txt():
-    global optimized_resume_global
+    optimized_resume = session.get("optimized_resume", "")
+    if not optimized_resume:
+        return redirect(url_for("index"))
+
     buffer = BytesIO()
-    buffer.write(optimized_resume_global.encode("utf-8"))
+    buffer.write(optimized_resume.encode("utf-8"))
     buffer.seek(0)
     return send_file(buffer, as_attachment=True, download_name="optimized_resume.txt", mimetype="text/plain")
 
 
 @app.route("/download/docx", methods=["POST"])
 def download_docx():
-    global optimized_resume_global
+    optimized_resume = session.get("optimized_resume", "")
+    if not optimized_resume:
+        return redirect(url_for("index"))
+
     doc = Document()
-    for line in optimized_resume_global.splitlines():
+    for line in optimized_resume.splitlines():
         if line.strip() == "":
             doc.add_paragraph("")  # preserve spacing
         else:
