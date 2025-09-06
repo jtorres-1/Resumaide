@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, send_file, session, redirect, url_for
-import openai
+from openai import OpenAI
 from PyPDF2 import PdfReader
 from io import BytesIO
 from docx import Document
@@ -11,9 +11,9 @@ from flask_limiter.errors import RateLimitExceeded
 
 # Load environment variables
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
+# OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")  # needed for session
@@ -58,7 +58,7 @@ def index():
         """
 
         try:
-            response = openai.chat.completions.create(
+            response = client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "You optimize resumes for ATS parsing."},
